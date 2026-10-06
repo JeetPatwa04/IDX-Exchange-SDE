@@ -17,5 +17,8 @@ app.get("/api/health", async (req, res) => {
   }
 });
 
+const propertiesRouter = require("./routes/properties"); // load the router from that file
+app.use("/api/properties", propertiesRouter); // attach it at this URL prefix
+
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
