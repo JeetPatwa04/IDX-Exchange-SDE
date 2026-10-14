@@ -94,7 +94,7 @@ router.get("/", async (req, res) => {
     );
 
     res.json({ total, limit, offset, results });
-  }catch (err) {
+  } catch (err) {
     if (err instanceof ValidationError) {
       return res.status(400).json({ error: err.message });
     }
