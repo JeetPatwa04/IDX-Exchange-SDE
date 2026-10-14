@@ -36,6 +36,26 @@ function parseDecimal(raw, name) {
   return Number(s);
 }
 
+// Listing ID: 1-50 letters, numbers, dashes or underscores
+function parseListingId(raw) {
+  const s = getString(raw, "id");
+  if (!/^[A-Za-z0-9_-]{1,50}$/.test(s)) {
+    throw new ValidationError("listing ID must be 1-50 letters, numbers, dashes or underscores");
+  }
+  return s;
+}
+
+// 400 for bad input, 500 for anything else (logged, never crashes)
+function sendError(err, res) {
+  if (err instanceof ValidationError) {
+    return res.status(400).json({ error: err.message });
+  }
+  console.error(err);
+  res.status(500).json({ error: "Internal server error" });
+}
+
+
+// GET /api/properties  (search + filters + pagination)
 router.get("/", async (req, res) => {
   try {
     const { city, zipcode, minPrice, maxPrice, beds, baths } = req.query;
@@ -95,12 +115,51 @@ router.get("/", async (req, res) => {
 
     res.json({ total, limit, offset, results });
   } catch (err) {
-    if (err instanceof ValidationError) {
-      return res.status(400).json({ error: err.message });
-    }
-    console.error(err);
-    res.status(500).json({ error: "Internal server error" });
+    sendError(err, res);
   }
 });
+
+// GET /api/properties/:id/openhouses  (must be registered BEFORE /:id)
+router.get("/:id/openhouses", async (req, res) => {
+  try {
+    const id = parseListingId(req.params.id);
+
+    const [props] = await pool.query(
+      "SELECT L_ListingID FROM rets_property WHERE L_ListingID = ? LIMIT 1",
+      [id]
+    );
+    if (props.length === 0) {
+      return res.status(404).json({ error: `No property found with listing ID ${id}` });
+    }
+
+    const [rows] = await pool.query(
+      "SELECT * FROM rets_openhouse WHERE L_ListingID = ? ORDER BY OpenHouseDate, OH_StartTime",
+      [id]
+    );
+    res.json(rows); // an empty array is fine
+  } catch (err) {
+    sendError(err, res);
+  }
+});
+
+
+// GET /api/properties/:id
+router.get("/:id", async (req, res) => {
+  try {
+    const id = parseListingId(req.params.id);
+
+    const [rows] = await pool.query(
+      "SELECT * FROM rets_property WHERE L_ListingID = ? LIMIT 1",
+      [id]
+    );
+    if (rows.length === 0) {
+      return res.status(404).json({ error: `No property found with listing ID ${id}` });
+    }
+    res.json(rows[0]);
+  } catch (err) {
+    sendError(err, res);
+  }
+});
+
 
 module.exports = router;
