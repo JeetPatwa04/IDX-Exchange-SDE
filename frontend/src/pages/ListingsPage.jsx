@@ -2,22 +2,27 @@ import { useEffect, useState } from "react";
 import { fetchProperties } from "../api/client";
 import PropertyCard from "../components/PropertyCard";
 import PropertyFilters from "../components/PropertyFilters";
+import Pagination from "../components/Pagination";
 import "./ListingsPage.css";
-
-const PAGE_SIZE = 20;
 
 export default function ListingsPage() {
   const [appliedFilters, setAppliedFilters] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(20);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    let cancelled = false; // set to true when these filters are replaced
+    let cancelled = false; // ignore responses for requests that were replaced
     setLoading(true);
     setError(null);
 
-    fetchProperties({ ...appliedFilters, limit: PAGE_SIZE, offset: 0 })
+    fetchProperties({
+      ...appliedFilters,
+      limit: itemsPerPage,
+      offset: (currentPage - 1) * itemsPerPage,
+    })
       .then((result) => {
         if (!cancelled) setData(result);
       })
@@ -34,16 +39,34 @@ export default function ListingsPage() {
     return () => {
       cancelled = true;
     };
-  }, [appliedFilters]);
+  }, [appliedFilters, currentPage, itemsPerPage]);
+
+  // New filters always go back to page 1 (both updates are batched into one fetch)
+  const handleSearch = (filters) => {
+    setAppliedFilters(filters);
+    setCurrentPage(1);
+  };
+
+  const handleClear = () => {
+    setAppliedFilters({});
+    setCurrentPage(1);
+  };
+
+  // Filters stay in appliedFilters, so changing the page keeps them
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo(0, 0);
+  };
+
+  const totalPages = data ? Math.ceil(data.total / itemsPerPage) : 0;
+  const firstShown = data ? data.offset + 1 : 0;
+  const lastShown = data ? data.offset + data.results.length : 0;
 
   return (
     <main className="listings-page">
-      <h1>IDX Exchange - Property Listings</h1>
+      <h1>Property Listings</h1>
 
-      <PropertyFilters
-        onSearch={(filters) => setAppliedFilters(filters)}
-        onClear={() => setAppliedFilters({})}
-      />
+      <PropertyFilters onSearch={handleSearch} onClear={handleClear} />
 
       {loading && <p className="listings-status">Loading properties…</p>}
 
@@ -62,13 +85,19 @@ export default function ListingsPage() {
         ) : (
           <>
             <p className="listings-count">
-              Showing {data.results.length} of {data.total.toLocaleString()} properties
+              Showing {firstShown.toLocaleString()}-{lastShown.toLocaleString()} of{" "}
+              {data.total.toLocaleString()} properties
             </p>
             <div className="listings-grid">
               {data.results.map((property) => (
                 <PropertyCard key={property.id} property={property} />
               ))}
             </div>
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
           </>
         ))}
     </main>

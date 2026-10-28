@@ -1,36 +1,71 @@
 .listings-page {
-  max-width: 1200px;
+  max-width: 1240px;
   margin: 0 auto;
-  padding: 24px 16px;
-  background: #f5f6f8;
+  padding: 40px 20px 56px;
 }
+
 .listings-page h1 {
-  margin: 0 0 4px;
+  margin: 0 0 24px;
+  font-size: clamp(28px, 4vw, 38px);
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
+
 .listings-count {
-  margin: 0 0 20px;
-  color: #52606d;
+  margin: 0 0 18px;
+  color: var(--color-muted);
+  font-size: 14px;
 }
+
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 24px;
 }
+
 .listings-status {
-  padding: 40px 0;
+  padding: 64px 0;
   text-align: center;
-  color: #52606d;
+  color: var(--color-muted);
 }
+.listings-status::before {
+  content: "";
+  display: block;
+  width: 28px;
+  height: 28px;
+  margin: 0 auto 14px;
+  border: 3px solid var(--color-border);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 .listings-error {
-  background: #fde8e8;
-  color: #9b1c1c;
-  border: 1px solid #f5b5b5;
-  border-radius: 8px;
-  padding: 16px;
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
+  border: 1px solid var(--color-danger-border);
+  border-radius: var(--radius-sm);
+  padding: 16px 18px;
 }
 
 .listings-empty {
   text-align: center;
-  padding: 40px 16px;
-  color: #52606d;
+  padding: 56px 16px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  color: var(--color-muted);
+}
+.listings-empty p {
+  margin: 0 0 6px;
+}
+.listings-empty strong {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  color: var(--color-text);
 }

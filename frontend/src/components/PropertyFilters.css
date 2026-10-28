@@ -1,47 +1,77 @@
 .property-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 16px 16px;
+  gap: 14px 16px;
   align-items: end;
-  background: #f5f6f8;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
-  margin-bottom: 20px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  padding: 18px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 24px;
 }
+
 .property-filters__field {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
+
 .property-filters label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  color: #3e4c59;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
 }
+
 .property-filters input,
 .property-filters select {
-  padding: 8px 10px;
-  border: 1px solid #cbd2d9;
-  border-radius: 6px;
+  font: inherit;
   font-size: 14px;
+  padding: 10px 12px;
+  color: var(--color-text);
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+.property-filters input:focus,
+.property-filters select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px var(--color-primary-soft);
+}
+
 .property-filters__actions {
   display: flex;
   gap: 8px;
 }
+
 .property-filters button {
-  padding: 9px 14px;
-  border-radius: 6px;
-  border: 1px solid transparent;
+  font: inherit;
   font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
   cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease;
 }
 .property-filters__search {
-  background: #1f6feb;
+  background: var(--color-primary);
   color: #fff;
 }
+.property-filters__search:hover {
+  background: var(--color-primary-hover);
+}
 .property-filters__clear {
-  background: #ff7a7a;
-  color: #fff;
+  background: transparent;
+  border-color: var(--color-border);
+  color: var(--color-muted);
+}
+.property-filters__clear:hover {
+  background: var(--color-primary-soft);
+  border-color: var(--color-primary);
+  color: var(--color-primary);
 }
