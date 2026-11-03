@@ -1,20 +1,21 @@
-// Returns the first photo URL, or null if there isn't a usable one.
-// Handles null, "", malformed JSON, non-arrays, empty arrays, and non-string entries.
-export function getFirstPhoto(raw) {
+// Parses L_Photos (a JSON string) into an array of valid http(s) URLs.
+// Handles null, "", malformed JSON, non-arrays, empty arrays, and junk entries.
+export function getPhotos(raw) {
   let list = raw;
-    
+
   if (typeof raw === "string") {
-    if (raw.trim() === "") return null;
+    if (raw.trim() === "") return [];
     try {
       list = JSON.parse(raw);
     } catch {
-      return null;
+      return [];
     }
   }
 
-  if (!Array.isArray(list) || list.length === 0) return null;
+  if (!Array.isArray(list)) return [];
+  return list.filter((url) => typeof url === "string" && /^https?:\/\//i.test(url));
+}
 
-  const first = list[0];
-  if (typeof first !== "string" || !/^https?:\/\//i.test(first)) return null;
-  return first;
+export function getFirstPhoto(raw) {
+  return getPhotos(raw)[0] ?? null;
 }
