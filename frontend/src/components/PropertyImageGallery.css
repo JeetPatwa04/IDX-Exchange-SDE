@@ -1,0 +1,143 @@
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.gallery--empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 16 / 10;
+  background: #dfe7f7;
+  border-radius: var(--radius);
+  color: var(--color-muted);
+}
+
+.gallery__main {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: #dfe7f7;
+  cursor: zoom-in;
+}
+.gallery__main img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery__fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-muted);
+  font-size: 14px;
+}
+.gallery__counter {
+  position: absolute;
+  right: 12px;
+  bottom: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: rgba(30, 42, 74, 0.75);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.gallery__thumbs {
+  position: relative; /* so offsetLeft is measured from the strip */
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding-bottom: 6px;
+}
+.gallery__thumb {
+  flex: 0 0 96px;
+  height: 68px;
+  padding: 0;
+  border: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  background: #dfe7f7;
+  opacity: 0.75;
+  cursor: pointer;
+  transition: opacity 0.15s ease;
+}
+.gallery__thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.gallery__thumb:hover {
+  opacity: 1;
+}
+.gallery__thumb--active {
+  border-color: var(--color-primary);
+  opacity: 1;
+}
+
+/* Lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(15, 23, 42, 0.92);
+}
+.lightbox:focus {
+  outline: none;
+}
+.lightbox__img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  user-select: none;
+}
+.lightbox__fallback {
+  color: #fff;
+}
+.lightbox__btn,
+.lightbox__close {
+  position: absolute;
+  width: 48px;
+  height: 48px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+  font-size: 28px;
+  line-height: 1;
+  cursor: pointer;
+}
+.lightbox__btn:hover,
+.lightbox__close:hover {
+  background: rgba(255, 255, 255, 0.32);
+}
+.lightbox__btn {
+  top: 50%;
+  transform: translateY(-50%);
+}
+.lightbox__btn--prev { left: 20px; }
+.lightbox__btn--next { right: 20px; }
+.lightbox__close {
+  top: 16px;
+  right: 20px;
+}
+.lightbox__counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: #fff;
+  font-size: 14px;
+}
