@@ -4,6 +4,7 @@ import PropertyCard from "../components/PropertyCard";
 import PropertyFilters from "../components/PropertyFilters";
 import Pagination from "../components/Pagination";
 import "./ListingsPage.css";
+import SiteNav from "../components/SiteNav";
 
 export default function ListingsPage() {
   const [appliedFilters, setAppliedFilters] = useState({});
@@ -63,43 +64,45 @@ export default function ListingsPage() {
   const lastShown = data ? data.offset + data.results.length : 0;
 
   return (
-    <main className="listings-page">
-      <h1>Property Listings</h1>
+    <>
+      <SiteNav />
 
-      <PropertyFilters onSearch={handleSearch} onClear={handleClear} />
+      <main className="listings-page">
+        <PropertyFilters onSearch={handleSearch} onClear={handleClear} />
 
-      {loading && <p className="listings-status">Loading properties…</p>}
+        {loading && <p className="listings-status">Loading properties…</p>}
 
-      {error && (
-        <div className="listings-error" role="alert">
-          <strong>Something went wrong.</strong> {error}
-        </div>
-      )}
-
-      {data && !loading && !error &&
-        (data.results.length === 0 ? (
-          <div className="listings-empty">
-            <p><strong>No properties found.</strong></p>
-            <p>Try widening your price range, removing a filter, or clearing all filters.</p>
+        {error && (
+          <div className="listings-error" role="alert">
+            <strong>Something went wrong.</strong> {error}
           </div>
-        ) : (
-          <>
-            <p className="listings-count">
-              Showing {firstShown.toLocaleString()}-{lastShown.toLocaleString()} of{" "}
-              {data.total.toLocaleString()} properties
-            </p>
-            <div className="listings-grid">
-              {data.results.map((property) => (
-                <PropertyCard key={property.id} property={property} />
-              ))}
+        )}
+
+        {data && !loading && !error &&
+          (data.results.length === 0 ? (
+            <div className="listings-empty">
+              <p><strong>No properties found.</strong></p>
+              <p>Try widening your price range, removing a filter, or clearing all filters.</p>
             </div>
-            <Pagination
-              currentPage={currentPage}
-              totalPages={totalPages}
-              onPageChange={handlePageChange}
-            />
-          </>
-        ))}
-    </main>
+          ) : (
+            <>
+              <p className="listings-count">
+                Showing {firstShown.toLocaleString()}-{lastShown.toLocaleString()} of{" "}
+                {data.total.toLocaleString()} properties
+              </p>
+              <div className="listings-grid">
+                {data.results.map((property) => (
+                  <PropertyCard key={property.id} property={property} />
+                ))}
+              </div>
+              <Pagination
+                currentPage={currentPage}
+                totalPages={totalPages}
+                onPageChange={handlePageChange}
+              />
+            </>
+          ))}
+      </main>
+    </>
   );
 }

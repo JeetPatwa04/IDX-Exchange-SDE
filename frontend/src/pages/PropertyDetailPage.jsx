@@ -5,6 +5,7 @@ import PropertyImageGallery from "../components/PropertyImageGallery";
 import PropertyMap from "../components/PropertyMap";
 import OpenHouses from "../components/OpenHouses";
 import "./PropertyDetailPage.css";
+import SiteNav from "../components/SiteNav";
 
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -98,13 +99,8 @@ export default function PropertyDetailPage() {
 
   return (
     <>
-      <header className="detail-topbar">
-        <div className="detail-topbar__inner">
-          <Link to="/" className="detail-topbar__back">← Back to listings</Link>
-        </div>
-      </header>
-
-      <main className="detail-page">
+        <SiteNav />
+        <main className="detail-page">
         {loading && <p className="detail-status">Loading property…</p>}
 
         {error && (
@@ -119,13 +115,16 @@ export default function PropertyDetailPage() {
         {property && (
           <>
             <section className="detail-header">
-              <p className="detail-price">
-                {property.L_SystemPrice != null ? money.format(property.L_SystemPrice) : "Price unavailable"}
-              </p>
-              <h1 className="detail-address">{address}</h1>
-              <p className="detail-city">{cityLine}</p>
+              <div>
+                <p className="detail-price">
+                  {property.L_SystemPrice != null ? money.format(property.L_SystemPrice) : "Price unavailable"}
+                </p>
+                <h1 className="detail-address">{address}</h1>
+                <p className="detail-city">{cityLine}</p>
+              </div>
+              <Link to="/" className="detail-back">Back</Link>
             </section>
-
+            
             <ul className="detail-stats">
               <li><strong>{num(property.L_Keyword2)}</strong><span>Beds</span></li>
               <li><strong>{num(property.LM_Dec_3)}</strong><span>Baths</span></li>

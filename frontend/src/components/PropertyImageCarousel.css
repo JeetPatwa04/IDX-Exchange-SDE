@@ -1,19 +1,19 @@
 .carousel {
   position: relative;
   width: 100%;
-  height: 200px;
-  background: #dfe7f7;
+  height: 220px;
   overflow: hidden;
+  background: var(--color-placeholder);
 }
 .carousel__img {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.35s ease;
+  transition: transform 0.4s ease;
 }
 .property-card:hover .carousel__img {
-  transform: scale(1.04);
+  transform: scale(1.05);
 }
 .carousel--empty,
 .carousel__fallback {
@@ -28,13 +28,14 @@
 .carousel__btn {
   position: absolute;
   top: 50%;
-  transform: translateY(-50%);
   width: 34px;
   height: 34px;
+  transform: translateY(-50%);
   border: none;
   border-radius: 50%;
-  background: rgba(30, 42, 74, 0.72);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.25);
+  color: var(--color-text);
   font-size: 20px;
   line-height: 1;
   cursor: pointer;
@@ -42,7 +43,7 @@
   transition: opacity 0.15s ease, background 0.15s ease;
 }
 .carousel__btn:hover {
-  background: rgba(30, 42, 74, 0.92);
+  background: #fff;
 }
 .carousel__btn--prev { left: 10px; }
 .carousel__btn--next { right: 10px; }
@@ -51,16 +52,19 @@
   opacity: 1;
 }
 @media (hover: none) {
-  .carousel__btn { opacity: 1; }
+  .carousel__btn {
+    opacity: 1;
+  }
 }
 
 .carousel__counter {
   position: absolute;
   right: 10px;
   bottom: 10px;
-  padding: 3px 9px;
+  padding: 3px 10px;
   border-radius: 999px;
-  background: rgba(30, 42, 74, 0.75);
+  background: rgba(15, 23, 42, 0.7);
+  backdrop-filter: blur(4px);
   color: #fff;
   font-size: 12px;
   font-weight: 600;

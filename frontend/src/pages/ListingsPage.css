@@ -1,26 +1,22 @@
+/* Page (pulled up so the filter card floats over the hero) */
 .listings-page {
+  position: relative;
   max-width: 1240px;
   margin: 0 auto;
-  padding: 40px 20px 56px;
-}
-
-.listings-page h1 {
-  margin: 0 0 24px;
-  font-size: clamp(28px, 4vw, 38px);
-  font-weight: 800;
-  letter-spacing: -0.02em;
+  padding: 28px 20px 64px;
 }
 
 .listings-count {
-  margin: 0 0 18px;
+  margin: 4px 0 20px;
   color: var(--color-muted);
   font-size: 14px;
+  font-weight: 500;
 }
 
 .listings-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 28px;
 }
 
 .listings-status {
@@ -46,20 +42,20 @@
 }
 
 .listings-error {
-  background: var(--color-danger-bg);
-  color: var(--color-danger-text);
+  padding: 16px 18px;
   border: 1px solid var(--color-danger-border);
   border-radius: var(--radius-sm);
-  padding: 16px 18px;
+  background: var(--color-danger-bg);
+  color: var(--color-danger-text);
 }
 
 .listings-empty {
-  text-align: center;
   padding: 56px 16px;
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
+  border: 1px dashed var(--color-border);
   border-radius: var(--radius);
+  background: var(--color-surface);
   color: var(--color-muted);
+  text-align: center;
 }
 .listings-empty p {
   margin: 0 0 6px;
